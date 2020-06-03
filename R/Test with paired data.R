@@ -1,27 +1,28 @@
-#' Small Sample Test for a population Mean
+#' Test with paired data
 #'
-#' Hyphotesis test for a Small Sample Test for a population Mean n<30 that comes from a NORMAL dist. sigma is unknown
+#' Hyphotesis test for Paired Data. CHECK if there is any relation between variables e,g. Vehicle, and Tires A,B.
+#' The samples are not INDEPENDET.Let (X1, Y1), …, (Xn, Yn) be a sample of ordered pairs whose differences D1,...,Dn are a sample
+#' from a normal population with mean μD. Let sD be the sample standard deviation of D1, …,Dn.
 #'
-#' Let X be the number of succeses in "n" independent Bernoulli trials with probability p: X~Bin(n,p)\cr
+#' The the statistic test is Student's t with n-1 degrees of freedom. If the sample is LARGE use z instead of t
 #'
-#' H1:p>p0   H0:p<=p0 ---->  "R"\cr
-#' H1:p<p0   H0:p>=p0 ---->  "L"\cr
-#' H1:p!=p0  H0:p=p0  ---->  "C"\cr
+#' H1:uD>u0   H0:uD<=u0 ---->  "R"\cr
+#' H1:uD<u0   H0:uD>=u0 ---->  "L"\cr
+#' H1:uD!=u0  H0:uD=u0  ---->  "C"\cr
 #'
 #' @param n sample size
-#' @param ux  mean of the sample
-#' @param sx sd fo the sample
+#' @param uD  mean of the DIFFERENCES between samples
+#' @param sD sd fo the DIFFERENCES between samples
 #' @param u0 Testing value
 #' @param type is character "R" right tail ,"L" left or "C" centered
 #' @param alpha significance value
 #' @return Data frame with if H0 is TRUE or FALSE, pvalue and z-score
 #' @export
 
-
-########################### SMALL-SAMPLE TEST FOR A POPULATION MEAN ####################################
-SmallSampleMeanTest<-function(n,ux,sx,u0,type,alpha){
+# TEST FOR PAIRED DATA
+PairedDataTest<-function(n,uD,sD,u0,type,alpha){
   # Get Tscore with ns.
-  tscore<-(ux-u0)/(sx/sqrt(n))
+  tscore<-(uD-u0)/(sD/sqrt(n));
   df=n-1
   #print(tscore)
   p<-NULL
@@ -51,8 +52,7 @@ SmallSampleMeanTest<-function(n,ux,sx,u0,type,alpha){
     }
   }
   if(p<=alpha){
-    H0<-FALSE;H0
-  }else{H0<-TRUE;H0}
+    H0<-FALSE}else{H0<-TRUE}
   vres<-data.frame(H0,p,tscore,df)
   return(vres)
 }
